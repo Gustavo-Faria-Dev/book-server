@@ -65,7 +65,7 @@ Do not add ebooks, covers, SQLite databases, or other personal files to the
 repository. They may contain private data, and ebooks may be protected by
 copyright. Each user should add their own files to the `books/` directory.
 
-## Estrutura
+## Project structure
 
 ```text
 reader-server/
