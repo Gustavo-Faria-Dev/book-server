@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="library-header">
+  <div>
+    <p class="section-label">Coleção</p>
+    <h2>Biblioteca</h2>
+  </div>
+  <div class="toolbar">
+    <form class="search-form" action="/search" method="get">
+      <input type="search" name="q" id="book-search" placeholder="Buscar livros..." value="{{ query or '' }}" />
+    </form>
+    <button class="primary-button" type="button" id="upload-trigger">+ Adicionar livro</button>
+  </div>
+</section>
+
+<section class="filters">
+  <div class="filter-group" role="tablist" aria-label="Filtros da biblioteca">
+    <button class="filter active">Todos</button>
+    <button class="filter">EPUB</button>
+    <button class="filter">PDF</button>
+    <button class="filter">MOBI</button>
+    <button class="filter">AZW3</button>
+    <button class="filter">Autores</button>
+    <button class="filter">Séries</button>
+  </div>
+</section>
+
+<section class="books-grid" id="books-grid">
+  {% for book in books %}
+  <article class="book-card" data-title="{{ book.title|lower }}" data-author="{{ book.author|lower }}" data-series="{{ book.series|lower }}">
+    <a class="cover-link" href="/books/{{ book.id }}">
+      {% if book.cover_path %}
+      <img src="/covers/{{ book.cover_path }}" alt="{{ book.title }}" />
+      {% else %}
+      <div class="cover-placeholder" aria-label="Capa do livro {{ book.title }}">{{ (book.title or 'L')|first|upper }}</div>
+      {% endif %}
+    </a>
+    <div class="card-body">
+      <h3><a href="/books/{{ book.id }}">{{ book.title }}</a></h3>
+      <p class="meta">{{ book.author or 'Autor desconhecido' }}</p>
+      <p class="meta subtle">{{ book.series or 'Sem série' }}</p>
+      <span class="format-badge">{{ book.format }}</span>
+    </div>
+  </article>
+  {% else %}
+  <div class="empty-state">
+    <h3>Nenhum livro encontrado.</h3>
+    <p>Adicione um EPUB ou outro arquivo suportado na pasta books/.</p>
+  </div>
+  {% endfor %}
+</section>
+
+<div class="modal hidden" id="upload-modal" aria-hidden="true">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3>Adicionar livro</h3>
+      <button type="button" class="close-button" id="close-upload">×</button>
+    </div>
+    <form id="upload-form" enctype="multipart/form-data">
+      <label class="upload-dropzone" for="file-input">
+        <input id="file-input" type="file" name="file" accept=".epub,.pdf,.mobi,.azw3,.cbz,.txt" />
+        <span>Arraste um arquivo aqui ou clique para selecionar</span>
+      </label>
+      <button class="primary-button" type="submit">Enviar</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

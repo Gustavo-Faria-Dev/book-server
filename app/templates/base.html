@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Reader Server{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}" />
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <div class="brand-wrap">
+          <div class="brand-mark">R</div>
+          <div>
+            <div class="eyebrow">Biblioteca local</div>
+            <h1>Reader Server</h1>
+          </div>
+        </div>
+        <nav class="main-nav">
+          <a href="/">Biblioteca</a>
+          <a href="/opds">OPDS</a>
+          <a href="/settings">Config</a>
+        </nav>
+      </header>
+      <main>
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>
