@@ -3,26 +3,26 @@
 {% block content %}
 <section class="library-header">
   <div>
-    <p class="section-label">Coleção</p>
-    <h2>Biblioteca</h2>
+    <p class="section-label">Collection</p>
+    <h2>Library</h2>
   </div>
   <div class="toolbar">
     <form class="search-form" action="/search" method="get">
-      <input type="search" name="q" id="book-search" placeholder="Buscar livros..." value="{{ query or '' }}" />
+      <input type="search" name="q" id="book-search" placeholder="Search books..." value="{{ query or '' }}" />
     </form>
-    <button class="primary-button" type="button" id="upload-trigger">+ Adicionar livro</button>
+    <button class="primary-button" type="button" id="upload-trigger">+ Add book</button>
   </div>
 </section>
 
 <section class="filters">
-  <div class="filter-group" role="tablist" aria-label="Filtros da biblioteca">
+  <div class="filter-group" role="tablist" aria-label="Library filters">
     <button class="filter active">Todos</button>
     <button class="filter">EPUB</button>
     <button class="filter">PDF</button>
     <button class="filter">MOBI</button>
     <button class="filter">AZW3</button>
-    <button class="filter">Autores</button>
-    <button class="filter">Séries</button>
+    <button class="filter">Authors</button>
+    <button class="filter">Series</button>
   </div>
 </section>
 
@@ -33,20 +33,20 @@
       {% if book.cover_path %}
       <img src="/covers/{{ book.cover_path }}" alt="{{ book.title }}" />
       {% else %}
-      <div class="cover-placeholder" aria-label="Capa do livro {{ book.title }}">{{ (book.title or 'L')|first|upper }}</div>
+      <div class="cover-placeholder" aria-label="Cover of {{ book.title }}">{{ (book.title or 'L')|first|upper }}</div>
       {% endif %}
     </a>
     <div class="card-body">
       <h3><a href="/books/{{ book.id }}">{{ book.title }}</a></h3>
-      <p class="meta">{{ book.author or 'Autor desconhecido' }}</p>
-      <p class="meta subtle">{{ book.series or 'Sem série' }}</p>
+      <p class="meta">{{ book.author or 'Unknown author' }}</p>
+      <p class="meta subtle">{{ book.series or 'No series' }}</p>
       <span class="format-badge">{{ book.format }}</span>
     </div>
   </article>
   {% else %}
   <div class="empty-state">
-    <h3>Nenhum livro encontrado.</h3>
-    <p>Adicione um EPUB ou outro arquivo suportado na pasta books/.</p>
+    <h3>No books found.</h3>
+    <p>Add an EPUB or another supported file to the books/ folder.</p>
   </div>
   {% endfor %}
 </section>
@@ -54,15 +54,15 @@
 <div class="modal hidden" id="upload-modal" aria-hidden="true">
   <div class="modal-card">
     <div class="modal-header">
-      <h3>Adicionar livro</h3>
+      <h3>Add book</h3>
       <button type="button" class="close-button" id="close-upload">×</button>
     </div>
     <form id="upload-form" enctype="multipart/form-data">
       <label class="upload-dropzone" for="file-input">
         <input id="file-input" type="file" name="file" accept=".epub,.pdf,.mobi,.azw3,.cbz,.txt" />
-        <span>Arraste um arquivo aqui ou clique para selecionar</span>
+        <span>Drop a file here or click to select one</span>
       </label>
-      <button class="primary-button" type="submit">Enviar</button>
+      <button class="primary-button" type="submit">Upload</button>
     </form>
   </div>
 </div>

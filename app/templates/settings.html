@@ -1,17 +1,17 @@
 {% extends 'base.html' %}
 
-{% block title %}Configurações — Reader Server{% endblock %}
+{% block title %}Settings - Reader Server{% endblock %}
 
 {% block content %}
 <section class="settings-panel">
-  <h2>Configurações</h2>
-  <p>Este servidor foi pensado para funcionar apenas na rede local Wi‑Fi.</p>
+  <h2>Settings</h2>
+  <p>This server is designed to run on a local Wi-Fi network.</p>
   <ul class="settings-list">
     <li>Host: 0.0.0.0</li>
-    <li>Porta: 8080</li>
-    <li>Pasta de livros: ./books</li>
-    <li>Pasta de capas: ./covers</li>
-    <li>Banco: SQLite em ./data/library.db</li>
+    <li>Port: 8080</li>
+    <li>Books folder: ./books</li>
+    <li>Covers folder: ./covers</li>
+    <li>Database: SQLite at ./data/library.db</li>
   </ul>
 </section>
 {% endblock %}

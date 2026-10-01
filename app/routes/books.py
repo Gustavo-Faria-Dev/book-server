@@ -31,15 +31,15 @@ def api_books_list():
 def api_books_create():
     uploaded_file = request.files.get("file")
     if uploaded_file is None or not uploaded_file.filename:
-        return jsonify({"error": "Arquivo obrigatório."}), 400
+        return jsonify({"error": "A file is required."}), 400
 
     filename = secure_filename(uploaded_file.filename)
     if not filename:
-        return jsonify({"error": "Nome de arquivo inválido."}), 400
+        return jsonify({"error": "Invalid file name."}), 400
 
     extension = Path(filename).suffix.lower().lstrip(".")
     if extension not in current_app.config["SUPPORTED_EXTENSIONS"]:
-        return jsonify({"error": "Formato não suportado."}), 400
+        return jsonify({"error": "Unsupported file format."}), 400
 
     storage_dir = Path(current_app.config["BOOKS_DIR"]).resolve()
     storage_dir.mkdir(parents=True, exist_ok=True)
@@ -49,7 +49,7 @@ def api_books_create():
     LibraryScanner(current_app).scan()
     saved_book = Book.query.filter_by(filepath=str(destination.resolve())).first()
     if saved_book is None:
-        return jsonify({"error": "Arquivo não foi importado."}), 500
+        return jsonify({"error": "The file could not be imported."}), 500
     return jsonify(saved_book.to_dict()), 201
 
 

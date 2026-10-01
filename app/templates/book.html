@@ -13,28 +13,28 @@
   </div>
 
   <div class="book-info">
-    <p class="section-label">Detalhes do livro</p>
+    <p class="section-label">Book details</p>
     <h2>{{ book.title }}</h2>
-    <p class="lead">{{ book.author or 'Autor desconhecido' }}</p>
-    <p class="series-line">{{ book.series or 'Sem série' }}{% if book.series_index %} · #{{ book.series_index }}{% endif %}</p>
+    <p class="lead">{{ book.author or 'Unknown author' }}</p>
+    <p class="series-line">{{ book.series or 'No series' }}{% if book.series_index %} · #{{ book.series_index }}{% endif %}</p>
 
     <div class="action-row">
-      <a class="primary-button" href="/books/{{ book.id }}/download">Baixar</a>
-      <a class="secondary-button" href="/settings">Editar</a>
-      <button class="danger-button" type="button" data-delete-id="{{ book.id }}">Excluir</button>
+      <a class="primary-button" href="/books/{{ book.id }}/download">Download</a>
+      <a class="secondary-button" href="/settings">Edit</a>
+      <button class="danger-button" type="button" data-delete-id="{{ book.id }}">Delete</button>
     </div>
 
     <div class="metadata-grid">
-      <div><span>Idioma</span><strong>{{ book.language or '—' }}</strong></div>
+      <div><span>Language</span><strong>{{ book.language or '—' }}</strong></div>
       <div><span>Publisher</span><strong>{{ book.publisher or '—' }}</strong></div>
       <div><span>ISBN</span><strong>{{ book.isbn or '—' }}</strong></div>
-      <div><span>Formato</span><strong>{{ book.format }}</strong></div>
-      <div><span>Tamanho</span><strong>{{ book.file_size }} bytes</strong></div>
+      <div><span>Format</span><strong>{{ book.format }}</strong></div>
+      <div><span>Size</span><strong>{{ book.file_size }} bytes</strong></div>
     </div>
 
     {% if book.description %}
     <div class="description-box">
-      <h3>Descrição</h3>
+      <h3>Description</h3>
       <p>{{ book.description }}</p>
     </div>
     {% endif %}

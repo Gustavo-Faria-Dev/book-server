@@ -50,7 +50,7 @@ if (searchInput) {
 const deleteButton = document.querySelector('[data-delete-id]');
 if (deleteButton) {
   deleteButton.addEventListener('click', async () => {
-    const shouldDelete = window.confirm('Excluir apenas da biblioteca ou excluir livro e arquivo?');
+    const shouldDelete = window.confirm('Remove the book from the library only, or remove the book and file?');
     const url = `/api/books/${deleteButton.dataset.deleteId}?delete_file=${shouldDelete ? 'true' : 'false'}`;
     const response = await fetch(url, { method: 'DELETE' });
     if (response.ok) {

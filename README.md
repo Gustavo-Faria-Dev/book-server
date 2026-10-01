@@ -1,14 +1,14 @@
 # Reader Server
 
-Reader Server é um servidor local de biblioteca de ebooks em Python + Flask, criado para rodar na rede Wi‑Fi local do Mac e servir leitores como XTEINK X4 Pro, KOReader, Kindle, iPhone, iPad e Mac.
+Reader Server is a local ebook library server built with Python and Flask. It runs on a Mac and serves readers such as XTEINK X4 Pro, KOReader, Kindle, iPhone, iPad, and Mac devices on the same Wi-Fi network.
 
-## Requisitos
+## Requirements
 
-- Python 3.11+
-- macOS Apple Silicon/M1
-- rede Wi‑Fi local
+- Python 3.11 or newer
+- macOS on Apple Silicon or Intel
+- A local Wi-Fi network
 
-## Instalação local
+## Local installation
 
 ```bash
 git clone <repository>
@@ -22,49 +22,48 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 
-Os diretórios `books/`, `covers/` e `data/` são criados para os dados de cada
-instalação. Eles são ignorados pelo Git; mantenha apenas os arquivos `.gitkeep`
-ao publicar o projeto.
+The `books/`, `covers/`, and `data/` directories hold data for each local
+installation. They are ignored by Git; keep only the `.gitkeep` files when
+publishing the project.
 
-## Executar
+## Run
 
 ```bash
 python run.py
 ```
 
-ou:
+Or:
 
 ```bash
 ./start.sh
 ```
 
-O servidor fica disponível em:
+The server is available at:
 
 ```text
 http://localhost:8080
 ```
 
-Para acessar de outro dispositivo na mesma rede Wi‑Fi, descubra o endereço do Mac:
+To access it from another device on the same Wi-Fi network, find the Mac's IP address:
 
 ```bash
 ipconfig getifaddr en0
 ```
 
-Depois use:
+Then use:
 
 ```text
-http://IP_DO_MAC:8080
+http://MAC_IP_ADDRESS:8080
 ```
 
-O servidor foi projetado para uso em uma rede local confiável. Ele não possui
-autenticação e não deve ser exposto diretamente à internet.
+The server is designed for use on a trusted local network. It has no
+authentication and must not be exposed directly to the internet.
 
-## Conteúdo da biblioteca
+## Library content
 
-Não inclua ebooks, capas, bancos SQLite ou outros arquivos pessoais no
-repositório. Além de poderem conter dados privados, os livros podem estar
-protegidos por direitos autorais. Cada usuário deve adicionar seus próprios
-arquivos à pasta `books/`.
+Do not add ebooks, covers, SQLite databases, or other personal files to the
+repository. They may contain private data, and ebooks may be protected by
+copyright. Each user should add their own files to the `books/` directory.
 
 ## Estrutura
 
@@ -104,17 +103,17 @@ reader-server/
 └── README.md
 ```
 
-## Funcionalidades
+## Features
 
-- Biblioteca local em SQLite
-- Importação automática de livros em pastas suportadas
-- Busca por título, autor, série, ISBN e editor
-- Download por livro
-- Catálogo OPDS em /opds
-- API JSON em /api/books
-- Proteção contra path traversal
-- Interface web responsiva
+- Local SQLite library
+- Automatic import of supported books from the library folder
+- Search by title, author, series, ISBN, and publisher
+- Per-book downloads
+- OPDS catalog at `/opds`
+- JSON API at `/api/books`
+- Path traversal protection
+- Responsive web interface
 
-## Licença
+## License
 
-Este projeto é para uso local e pessoal.
+This project is intended for local and personal use.
