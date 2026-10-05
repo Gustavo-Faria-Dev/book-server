@@ -62,6 +62,8 @@
         <input id="file-input" type="file" name="file" accept=".epub,.pdf,.mobi,.azw3,.cbz,.txt" />
         <span>Drop a file here or click to select one</span>
       </label>
+      <div class="selected-file hidden" id="selected-file" aria-live="polite"></div>
+      <p class="upload-error hidden" id="upload-error" role="alert"></p>
       <button class="primary-button" type="submit">Upload</button>
     </form>
   </div>
