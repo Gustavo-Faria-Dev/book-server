@@ -16,10 +16,10 @@
             <h1>Reader Server</h1>
           </div>
         </div>
-        <nav class="main-nav">
-          <a href="/">Library</a>
-          <a href="/opds">OPDS</a>
-          <a href="/settings">Settings</a>
+        <nav class="main-nav" aria-label="Main navigation">
+          <a href="/" {% if request.path == '/' or request.path == '/search' %}aria-current="page"{% endif %}>Library</a>
+          <a href="/opds" {% if request.path == '/opds' %}aria-current="page"{% endif %}>OPDS</a>
+          <a href="/settings" {% if request.path == '/settings' %}aria-current="page"{% endif %}>Settings</a>
         </nav>
       </header>
       <main>

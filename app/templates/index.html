@@ -3,12 +3,13 @@
 {% block content %}
 <section class="library-header">
   <div>
-    <p class="section-label">Collection</p>
-    <h2>Library</h2>
+    <p class="section-label">Your collection</p>
+    <h2>Library <span class="book-count">{{ books|length }}</span></h2>
   </div>
   <div class="toolbar">
     <form class="search-form" action="/search" method="get">
-      <input type="search" name="q" id="book-search" placeholder="Search books..." value="{{ query or '' }}" />
+      <label class="sr-only" for="book-search">Search your library</label>
+      <input type="search" name="q" id="book-search" placeholder="Search by title, author..." value="{{ query or '' }}" autocomplete="off" />
     </form>
     <button class="primary-button" type="button" id="upload-trigger">+ Add book</button>
   </div>
@@ -16,19 +17,19 @@
 
 <section class="filters">
   <div class="filter-group" role="tablist" aria-label="Library filters">
-    <button class="filter active">Todos</button>
-    <button class="filter">EPUB</button>
-    <button class="filter">PDF</button>
-    <button class="filter">MOBI</button>
-    <button class="filter">AZW3</button>
-    <button class="filter">Authors</button>
-    <button class="filter">Series</button>
+    <button class="filter active" type="button" data-filter="all" aria-pressed="true">All books</button>
+    <button class="filter" type="button" data-filter="epub" aria-pressed="false">EPUB</button>
+    <button class="filter" type="button" data-filter="pdf" aria-pressed="false">PDF</button>
+    <button class="filter" type="button" data-filter="mobi" aria-pressed="false">MOBI</button>
+    <button class="filter" type="button" data-filter="azw3" aria-pressed="false">AZW3</button>
+    <button class="filter" type="button" data-filter="authors" aria-pressed="false">With author</button>
+    <button class="filter" type="button" data-filter="series" aria-pressed="false">With series</button>
   </div>
 </section>
 
 <section class="books-grid" id="books-grid">
   {% for book in books %}
-  <article class="book-card" data-title="{{ book.title|lower }}" data-author="{{ book.author|lower }}" data-series="{{ book.series|lower }}">
+  <article class="book-card" data-title="{{ book.title|lower }}" data-author="{{ book.author|lower }}" data-series="{{ book.series|lower }}" data-format="{{ book.format|lower }}">
     <a class="cover-link" href="/books/{{ book.id }}">
       {% if book.cover_path %}
       <img src="/covers/{{ book.cover_path }}" alt="{{ book.title }}" />
@@ -45,26 +46,34 @@
   </article>
   {% else %}
   <div class="empty-state">
-    <h3>No books found.</h3>
-    <p>Add an EPUB or another supported file to the books/ folder.</p>
+    <div class="empty-icon" aria-hidden="true">+</div>
+    <h3>Your library is empty</h3>
+    <p>Add a book from your device to start building your collection.</p>
+    <button class="primary-button" type="button" data-open-upload> Add your first book </button>
   </div>
   {% endfor %}
 </section>
+<div class="empty-state hidden" id="no-results" aria-live="polite">
+  <h3>No books match your search</h3>
+  <p>Try a different title, author, or filter.</p>
+  <button class="secondary-button" type="button" id="clear-filters">Clear search and filters</button>
+</div>
 
 <div class="modal hidden" id="upload-modal" aria-hidden="true">
   <div class="modal-card">
     <div class="modal-header">
       <h3>Add book</h3>
-      <button type="button" class="close-button" id="close-upload">×</button>
+      <button type="button" class="close-button" id="close-upload" aria-label="Close upload dialog">×</button>
     </div>
     <form id="upload-form" enctype="multipart/form-data">
       <label class="upload-dropzone" for="file-input">
         <input id="file-input" type="file" name="file" accept=".epub,.pdf,.mobi,.azw3,.cbz,.txt" />
-        <span>Drop a file here or click to select one</span>
+        <span class="dropzone-title">Drop a book here or click to browse</span>
+        <small>EPUB, PDF, MOBI, AZW3, CBZ or TXT</small>
       </label>
       <div class="selected-file hidden" id="selected-file" aria-live="polite"></div>
       <p class="upload-error hidden" id="upload-error" role="alert"></p>
-      <button class="primary-button" type="submit">Upload</button>
+      <button class="primary-button" type="submit" id="upload-submit">Add book</button>
     </form>
   </div>
 </div>

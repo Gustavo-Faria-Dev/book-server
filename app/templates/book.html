@@ -20,7 +20,7 @@
 
     <div class="action-row">
       <a class="primary-button" href="/books/{{ book.id }}/download">Download</a>
-      <a class="secondary-button" href="/settings">Edit</a>
+      <a class="secondary-button" href="/">Back to library</a>
       <button class="danger-button" type="button" data-delete-id="{{ book.id }}">Delete</button>
     </div>
 
@@ -29,7 +29,7 @@
       <div><span>Publisher</span><strong>{{ book.publisher or '—' }}</strong></div>
       <div><span>ISBN</span><strong>{{ book.isbn or '—' }}</strong></div>
       <div><span>Format</span><strong>{{ book.format }}</strong></div>
-      <div><span>Size</span><strong>{{ book.file_size }} bytes</strong></div>
+      <div><span>Size</span><strong>{{ "{:,.0f}".format(book.file_size or 0) }} bytes</strong></div>
     </div>
 
     {% if book.description %}
