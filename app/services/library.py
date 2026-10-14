@@ -76,6 +76,18 @@ class LibraryScanner:
             seen_files.add(str(file_path.resolve()))
             existing = Book.query.filter_by(filepath=str(file_path.resolve())).first()
             if existing:
+                cover_file = (
+                    Path(current_app.config["COVERS_DIR"]) / existing.cover_path
+                    if existing.cover_path
+                    else None
+                )
+                if file_path.suffix.lower() == ".epub" and (
+                    not existing.cover_path or not cover_file.exists()
+                ):
+                    existing.cover_path = CoverService.extract_cover(
+                        str(file_path), output_name=f"{existing.file_hash[:12]}.jpg"
+                    )
+                    db.session.add(existing)
                 continue
             self._safe_import(file_path)
             imported += 1

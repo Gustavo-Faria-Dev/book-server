@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import ebooklib
 from flask import current_app
 from ebooklib import epub
 
@@ -14,7 +15,7 @@ class CoverService:
         try:
             book = epub.read_epub(str(path))
             for item in book.get_items():
-                if item.get_type() == epub.ITEM_IMAGE:
+                if item.get_type() == ebooklib.ITEM_IMAGE:
                     cover_bytes = item.get_content()
                     target_name = output_name or f"{path.stem}.jpg"
                     target_dir = Path(current_app.config["COVERS_DIR"]).resolve()

@@ -1,6 +1,6 @@
 from pathlib import Path, PurePosixPath
 
-from flask import Blueprint, abort, current_app, jsonify, render_template, request, send_file
+from flask import Blueprint, abort, current_app, jsonify, render_template, request, send_file, send_from_directory
 from werkzeug.utils import secure_filename
 
 from app.models import Book, db
@@ -92,6 +92,11 @@ def api_book_detail(book_id):
 def book_detail(book_id):
     book = Book.query.get_or_404(book_id)
     return render_template("book.html", book=book)
+
+
+@books_bp.route("/covers/<path:filename>")
+def cover_file(filename):
+    return send_from_directory(current_app.config["COVERS_DIR"], filename)
 
 
 @books_bp.route("/books/<int:book_id>/download")

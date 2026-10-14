@@ -65,6 +65,18 @@ Do not add ebooks, covers, SQLite databases, or other personal files to the
 repository. They may contain private data, and ebooks may be protected by
 copyright. Each user should add their own files to the `books/` directory.
 
+### Book covers
+
+When an EPUB is imported, the server extracts the first embedded image and
+saves it in the `covers/` directory. The generated filename is based on the
+book's content hash and is stored with the book record. The web interface then
+serves the image from `/covers/<filename>`.
+
+Books already in the library are checked again at startup. If an EPUB has no
+cover path, or its generated cover file is missing, the server extracts the
+cover again. Other supported formats use the cover placeholder in the web
+interface unless a cover is added by another integration.
+
 ## Project structure
 
 ```text

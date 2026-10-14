@@ -70,6 +70,31 @@ def test_search_and_download_endpoints(tmp_path, monkeypatch):
     assert download.data == b"Hamlet by Shakespeare"
 
 
+def test_cover_endpoint_and_library_render_cover(tmp_path, monkeypatch):
+    app = create_test_app(tmp_path, monkeypatch)
+    book_path = Path(app.config["BOOKS_DIR"]) / "cover-book.txt"
+    book_path.write_text("cover book", encoding="utf-8")
+
+    with app.app_context():
+        from app.services.library import LibraryScanner
+
+        LibraryScanner(app).scan()
+        book = Book.query.filter_by(filename="cover-book.txt").first()
+        book.cover_path = "cover-book.jpg"
+        Path(app.config["COVERS_DIR"], book.cover_path).write_bytes(b"fake image")
+        from app import db
+
+        db.session.commit()
+
+    client = app.test_client()
+    cover = client.get("/covers/cover-book.jpg")
+    assert cover.status_code == 200
+    assert cover.data == b"fake image"
+
+    library = client.get("/")
+    assert b'/covers/cover-book.jpg' in library.data
+
+
 def test_opds_catalog(tmp_path, monkeypatch):
     app = create_test_app(tmp_path, monkeypatch)
     book_path = Path(app.config["BOOKS_DIR"]) / "dune.txt"
