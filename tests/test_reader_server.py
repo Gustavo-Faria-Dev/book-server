@@ -146,3 +146,49 @@ def test_metadata_service_extracts_title_from_filename(tmp_path, monkeypatch):
 
     metadata = MetadataService.extract_metadata(str(book_path))
     assert metadata["title"] == "Metadata-book"
+
+
+def test_cover_service_prefers_named_cover(tmp_path, monkeypatch):
+    app = create_test_app(tmp_path, monkeypatch)
+    book_path = Path(app.config["BOOKS_DIR"]) / "cover-priority.epub"
+    book_path.write_bytes(b"not a real epub")
+
+    class FakeItem:
+        def __init__(self, name, content):
+            self.name = name
+            self.content = content
+
+        def get_name(self):
+            return self.name
+
+        def get_id(self):
+            return self.name.rsplit("/", 1)[-1].split(".", 1)[0]
+
+        def get_type(self):
+            from ebooklib import ITEM_IMAGE
+
+            return ITEM_IMAGE
+
+        def get_content(self):
+            return self.content
+
+    class FakeBook:
+        def get_metadata(self, namespace, name):
+            return []
+
+        def get_items(self):
+            return [
+                FakeItem("titlepage_footer.png", b"wrong image"),
+                FakeItem("cover.png", b"actual cover"),
+            ]
+
+    from app.services import covers
+
+    monkeypatch.setattr(covers.epub, "read_epub", lambda path: FakeBook())
+    with app.app_context():
+        cover_name = covers.CoverService.extract_cover(
+            book_path, output_name="priority.jpg"
+        )
+
+    assert cover_name == "priority.jpg"
+    assert (Path(app.config["COVERS_DIR"]) / cover_name).read_bytes() == b"actual cover"

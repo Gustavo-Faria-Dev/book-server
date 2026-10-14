@@ -67,10 +67,11 @@ copyright. Each user should add their own files to the `books/` directory.
 
 ### Book covers
 
-When an EPUB is imported, the server extracts the first embedded image and
-saves it in the `covers/` directory. The generated filename is based on the
-book's content hash and is stored with the book record. The web interface then
-serves the image from `/covers/<filename>`.
+When an EPUB is imported, the server looks for its declared cover asset first,
+then for images named `cover` or `frontcover`, before falling back to an early
+image. It saves the result in the `covers/` directory. The generated filename
+is based on the book's content hash and is stored with the book record. The web
+interface then serves the image from `/covers/<filename>`.
 
 Books already in the library are checked again at startup. If an EPUB has no
 cover path, or its generated cover file is missing, the server extracts the
